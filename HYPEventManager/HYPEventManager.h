@@ -14,11 +14,14 @@
 
 + (instancetype)sharedManager;
 
-- (void)createEventWithTitle:(NSString *)title startDate:(NSDate *)startDate duration:(NSInteger)duration completion:(void (^)(NSString *eventIdentifier, NSError *error))completion;
+- (void)createEventWithTitle:(NSString *)title notes:(NSString*)notes url:(NSURL*)url startDate:(NSDate *)startDate duration:(NSInteger)duration
+                  completion:(void (^)(NSString *eventIdentifier, NSError *error))completion;
 
-- (void)updateEvent:(NSString *)eventIdentifier withTitle:(NSString *)title startDate:(NSDate *)startDate duration:(NSInteger)duration completion:(void (^)(NSString *eventIdentifier, NSError *error))completion;
+- (void)updateEvent:(NSString *)eventIdentifier withTitle:(NSString *)title notes:(NSString*)notes url:(NSURL*)url
+          startDate:(NSDate *)startDate duration:(NSInteger)duration completion:(void (^)(NSString *eventIdentifier, NSError *error))completion;
 
-- (void)updateEvent:(NSString *)eventIdentifier withTitle:(NSString *)title startDate:(NSDate *)startDate endDate:(NSDate *)endDate completion:(void (^)(NSString *eventIdentifier, NSError *error))completion;
+- (void)updateEvent:(NSString *)eventIdentifier withTitle:(NSString *)title notes:(NSString*)notes url:(NSURL*)url
+          startDate:(NSDate *)startDate endDate:(NSDate *)endDate completion:(void (^)(NSString *eventIdentifier, NSError *error))completion;
 
 - (void)deleteEventWithIdentifier:(NSString *)identifier completion:(void (^)(NSError *error))completion;
 

@@ -62,26 +62,34 @@
     }];
 }
 
-- (void)updateEvent:(NSString *)eventIdentifier withTitle:(NSString *)title startDate:(NSDate *)startDate duration:(NSInteger)duration completion:(void (^)(NSString *eventIdentifier, NSError *error))completion
-{
+- (void)updateEvent:(NSString *)eventIdentifier withTitle:(NSString *)title notes:(NSString*)notes url:(NSURL*)url
+          startDate:(NSDate *)startDate duration:(NSInteger)duration completion:(void (^)(NSString *eventIdentifier, NSError *error))completion {
+    
     NSDate * endDate = [NSDate dateWithTimeInterval:3600 * duration sinceDate:startDate];
     if (self.convertDatesToGMT) {
         endDate = [self dateToGlobalTime:endDate];
     }
     [self updateEvent:eventIdentifier
             withTitle:title
+                notes:notes
+                  url:url
             startDate:startDate
               endDate:endDate
            completion:completion];
 }
 
-- (void)updateEvent:(NSString *)eventIdentifier withTitle:(NSString *)title startDate:(NSDate *)aStartDate endDate:(NSDate *)endDate completion:(void (^)(NSString *eventIdentifier, NSError *error))completion
-{
+- (void)updateEvent:(NSString *)eventIdentifier withTitle:(NSString *)title notes:(NSString*)notes url:(NSURL*)url
+          startDate:(NSDate *)aStartDate endDate:(NSDate *)endDate completion:(void (^)(NSString *eventIdentifier, NSError *error))completion {
+    
     [self requestAccessToEventStoreWithCompletion:^(BOOL success, NSError *anError) {
         if (success) {
             EKEvent *event = [self.eventStore eventWithIdentifier:eventIdentifier];
             if (event) {
+                
                 event.title = title;
+                if (notes.length > 0) event.notes = notes;
+                if (url) event.URL = url;
+                
                 NSDate *startDate;
                 if (self.convertDatesToGMT) {
                     startDate = [self dateToGlobalTime:aStartDate];
@@ -126,8 +134,10 @@
     return [NSDate dateWithTimeInterval: seconds sinceDate: date];
 }
 
-- (void)createEventWithTitle:(NSString *)title startDate:(NSDate *)aStartDate duration:(NSInteger)duration completion:(void (^)(NSString *eventIdentifier, NSError *error))completion
-{
+
+- (void)createEventWithTitle:(NSString *)title notes:(NSString*)notes url:(NSURL*)url
+                   startDate:(NSDate *)aStartDate duration:(NSInteger)duration completion:(void (^)(NSString *eventIdentifier, NSError *error))completion {
+    
     [self requestAccessToEventStoreWithCompletion:^(BOOL success, NSError *anError) {
         if (success) {
             NSDate *startDate;
@@ -138,6 +148,10 @@
             }
             EKEvent *event = [EKEvent eventWithEventStore:self.eventStore];
             event.title = title;
+            
+            if (notes.length > 0) event.notes = notes;
+            if (url) event.URL = url;
+            
             event.startDate = startDate;
             event.endDate = [NSDate dateWithTimeInterval:3600 * duration sinceDate:startDate];
             event.calendar = self.eventStore.defaultCalendarForNewEvents;

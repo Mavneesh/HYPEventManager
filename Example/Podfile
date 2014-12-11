@@ -1,1 +1,1 @@
-pod "HYPEventManager", :path => "../"
+pod 'HYPEventManager'
