@@ -226,11 +226,12 @@
             
             NSDate * start = startDate;
             if (!start) {
-                start = [NSDate dateWithTimeIntervalSinceNow:-60*60*24*30];
+                start = [NSDate dateWithTimeIntervalSinceNow:[[NSDate distantPast] timeIntervalSinceReferenceDate]];
             }
+            
             NSDate * end = endDate;
             if (!end) {
-                end = [NSDate dateWithTimeIntervalSinceNow:60*60*24*30];
+                end = [NSDate dateWithTimeIntervalSinceNow:[[NSDate distantFuture] timeIntervalSinceReferenceDate]];
             }
             
             NSPredicate * predicate = [self.eventStore predicateForEventsWithStartDate:start
@@ -256,7 +257,10 @@
 
 - (void)nearEventsInCalendarsWithFilter:(BOOL (^)(EKEvent * event))filter completition:(void (^)(NSArray * events))completion
 {
-    [self eventsInCalendarsBetweenStartDate:nil andEndDate:nil filter:filter completition:completion];
+    [self eventsInCalendarsBetweenStartDate:[NSDate dateWithTimeIntervalSinceNow:-60*60*24*30]
+                                 andEndDate:[NSDate dateWithTimeIntervalSinceNow:60*60*24*30]
+                                     filter:filter
+                               completition:completion];
 }
 
 @end
