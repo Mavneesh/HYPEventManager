@@ -34,27 +34,7 @@
         return;
     }
     
-    self.eventCount++;
-    
-    NSString * eventTitle = [@"My event " stringByAppendingString:@(self.eventCount).description];
-    
-    [[HYPEventManager sharedManager] createEventWithTitle:eventTitle
-                                                startDate:[NSDate dateWithTimeIntervalSinceNow:60*60 * self.eventCount * 2]
-                                                 duration:0.5
-                                               completion:^(NSString *eventIdentifier, NSError *error) {
-                                                   NSLog(@"Event created %@", eventIdentifier);
-                                                   
-                                                   dispatch_after(0.5, dispatch_get_main_queue(), ^{
-                                                       [[HYPEventManager sharedManager] updateEvent:eventIdentifier
-                                                                                          withTitle:[eventTitle stringByAppendingString:@" (updated)"]
-                                                                                          startDate:[NSDate dateWithTimeIntervalSinceNow:60*60*3]
-                                                                                           duration:1
-                                                                                         completion:^(NSString *updatedIdentifier, NSError *error) {
-                                                                                             NSLog(@"Event updated %@", updatedIdentifier);
-                                                                                             [self addEvents];
-                                                                                         }];
-                                                   });
-                                               }];
+    self.eventCount++;    
 }
 
 - (void)printAllEventsWithOddNames
