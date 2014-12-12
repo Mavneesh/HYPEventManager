@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "HYPEventManager@ZL"
-  s.version = "0.2.1"
+  s.version = "0.2.2"
   s.summary = "HYPEventManager is the easiest way to add, update and remove iOS calendar events"
   s.description = <<-DESC
                    * HYPEventManager is the easiest way to add, update and remove iOS calendar events
@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
     :type => 'MIT',
     :file => 'LICENSE.md'
   }
-  s.author = { "Elvis Nunez" => "elvisnunez@me.com" }
+  s.author = { "King Android" => "kingandroid627@yahoo.com" }
   s.platform = :ios, '6.0'
   s.source = {
     :git => 'https://github.com/KingAndroid/HYPEventManager.git',
