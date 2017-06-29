@@ -65,7 +65,7 @@
 - (void)updateEvent:(NSString *)eventIdentifier withTitle:(NSString *)title notes:(NSString*)notes url:(NSURL*)url
           startDate:(NSDate *)startDate duration:(NSInteger)duration completion:(void (^)(NSString *eventIdentifier, NSError *error))completion {
     
-    NSDate * endDate = [NSDate dateWithTimeInterval:3600 * duration sinceDate:startDate];
+    NSDate * endDate = [NSDate dateWithTimeInterval:duration sinceDate:startDate];
     if (self.convertDatesToGMT) {
         endDate = [self dateToGlobalTime:endDate];
     }
@@ -153,7 +153,7 @@
             if (url) event.URL = url;
             
             event.startDate = startDate;
-            event.endDate = [NSDate dateWithTimeInterval:3600 * duration sinceDate:startDate];
+            event.endDate = [NSDate dateWithTimeInterval:duration sinceDate:startDate];
             event.calendar = self.eventStore.defaultCalendarForNewEvents;
             event.alarms = [NSArray arrayWithObject:[EKAlarm alarmWithAbsoluteDate:event.startDate]];
             NSError *eventError = nil;
